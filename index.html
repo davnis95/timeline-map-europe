@@ -66,7 +66,7 @@ var w= 900,
 				 .attr("fill", "none")
 				 //.attr("fill","grey");
 
-  d3.tsv("test.txt")
+  d3.tsv("europe.txt")
     .row(function(d) {
       return {
         permalink: d.permalink,
@@ -115,7 +115,7 @@ var displaySites = function(data) {
 				.style("fill","green")
 				.attr("stroke-width", 1)
 				.transition().duration(400)
-					.attr("stroke-width", 5);;
+					.attr("stroke-width", 5);
 
 		sites.exit()
 			.transition().duration(200)
