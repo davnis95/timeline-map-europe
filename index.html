@@ -13,8 +13,12 @@
 }
 
 #slider3 {
-  margin: 20px 0 10px 20px;
+  margin: 0px 0 10px 20px;
   width: 900px;
+}
+
+body{
+	background-color: white;
 }
 
 </style>
@@ -34,7 +38,8 @@
 <script>
 
 var w= 900,
-    h = 600;
+    h = 600,
+		margintop=20;
 
 		var projection = d3.geo.mercator() //utiliser une projection standard pour aplatir les pôles, voir D3 projection plugin
 								 .center([ 25, 50 ]) //comment centrer la carte, longitude, latitude
@@ -50,7 +55,11 @@ var w= 900,
 		var svg = d3.select("body")
 					.append("svg")
 					.attr("width", w)
-					.attr("height", h);
+					.attr("height", h)
+					.style('margin-left','20px')
+					.style('margin-top', '10px')
+					.style("background-color","#4da6ff");
+
 
 		//Load in GeoJSON data
 		d3.json("world.json", function(json) {
@@ -63,8 +72,7 @@ var w= 900,
 				 .attr("d", path)
 				 .attr("stroke", "#333")
 				 .attr("stroke-width", ".5px")
-				 .attr("fill", "none")
-				 //.attr("fill","grey");
+				 .attr("fill", "#ffebcc");
 
   d3.tsv("europe.txt")
     .row(function(d) {
