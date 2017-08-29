@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <head>
-	<title>D3 EUROPE Mapping Timeline</title>
+	<title>D3 Mapping Timeline</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="d3.slider.css" />
 <style>
 
+
 .site {
-	stroke:#333;
-	stroke-width: 2px;
+	stroke-width: 0.5px;
+  stroke: #333;
+  fill: rgb(255, 239, 204);
 }
 
 #slider3 {
@@ -61,9 +63,10 @@ var w= 900,
 				 .attr("d", path)
 				 .attr("stroke", "#333")
 				 .attr("stroke-width", ".5px")
-				 .attr("fill", "none");
+				 .attr("fill", "none")
+				 //.attr("fill","grey");
 
-  d3.tsv("rest_777_2.txt")
+  d3.tsv("test.txt")
     .row(function(d) {
       return {
         permalink: d.permalink,
@@ -71,7 +74,7 @@ var w= 900,
         lng: parseFloat(d.long),
         city: d.city,
 				color: d.color,
-        created_at: moment(d.created_at,"DD/MM/YY HH:mm").year()+Math.floor((moment(d.created_at, "DD/MM/YY HH:mm").month()-1)/3)*0.25,
+        created_at: moment(d.created_at,"DD/MM/YY").year()+Math.floor((moment(d.created_at, "DD/MM/YY").month()-1)/6)*0.5,
 				power:parseInt(d.power)
 			};
     })
@@ -88,61 +91,63 @@ var displaySites = function(data) {
         return d.permalink;
       });
 
-		sites.enter().append("polyline")
-			.filter(function(d) { return d.power==150; })
-			.attr("class", "site")
-			.style("stroke", function(d) { return d.color; })
-			//.style("fill","red")
-			.attr("points", function(d) {
-				var x=projection([d.lng, d.lat])[0];
-				var y=projection([d.lng, d.lat])[1];
-				var text=""
-				virgule=","
-				return text.concat(
-				x,virgule,y-10,virgule,
-				x-5,virgule,y,virgule,
-				x+5,virgule,y,virgule,
-				x,virgule,y+10
-				);
-			})
-			.style("fill","none")
-			.attr("stroke-width", 1)
-			.transition().duration(400)
-				.attr("stroke-width", 5);;
+			sites.enter().append("polyline")
+				.filter(function(d) { return d.power==150; })
+				.attr("class", "site")
+				.style("stroke", function(d) { return d.color; })
+				//.style("fill","red")
+				.attr("points", function(d) {
+					var x=projection([d.lng, d.lat])[0];
+					var y=projection([d.lng, d.lat])[1];
+					var text=""
+					virgule=","
+					return text.concat(
+					x-6,virgule,y+13,virgule,
+					x+10.5,virgule,y-3,virgule,
+					x+4.5,virgule,y-3,virgule,
+					x+12.5,virgule,y-13,virgule,
+					x+7.5,virgule,y-13,virgule,
+					x-2.5,virgule,y,virgule,
+					x+2.5,virgule,y,virgule,
+					x-6,virgule,y+13
+					);
+				})
+				.style("fill","green")
+				.attr("stroke-width", 1)
+				.transition().duration(400)
+					.attr("stroke-width", 5);;
 
-	sites.exit()
-						.transition().duration(200)
-							.attr("stroke-width",1)
-							.remove();
+		sites.exit()
+			.transition().duration(200)
+				.attr("stroke-width",1)
+				.remove();
 
-		sites.enter().append("circle")
-			.filter(function(d) { return d.power==50; })
-      .attr("class", "site")
-			.style("fill", function(d) { return d.color; })
-			//.style("fill","red")
-      .attr("cx", function(d) {
-        return projection([d.lng, d.lat])[0];
-      })
-      .attr("cy", function(d) {
-        return projection([d.lng, d.lat])[1];
-      })
-      .attr("r", 1)
-      .transition().duration(400)
-        .attr("r", 5);
+			sites.enter().append("circle")
+				.filter(function(d) { return d.power==50; })
+				.attr("class", "site")
+				.style("fill", function(d) { return d.color; })
+				//.style("fill","red")
+				.attr("cx", function(d) {
+					return projection([d.lng, d.lat])[0];
+				})
+				.attr("cy", function(d) {
+					return projection([d.lng, d.lat])[1];
+				})
+				.attr("r", 1)
+				.transition().duration(400)
+					.attr("r", 5);
 
-  sites.exit()
-    .transition().duration(200)
-      .attr("r",1)
-      .remove();
-
-
-};
+		sites.exit()
+			.transition().duration(200)
+				.attr("r",1)
+				.remove();
 
 
+		};
 
-var minDateUnix = moment('01/07/14', "DD/MM/YY").year()+Math.floor((moment('01/07/14', "DD/MM/YY").month()-1)/3)*0.25;
-var maxDateUnix = moment('21/07/15', "DD/MM/YY").year()+Math.floor((moment('21/07/15', "DD/MM/YY").month()-1)/3)*0.25;
-var secondsInDay = 0.01;
+var minDateUnix = moment('25/04/14', "DD/MM/YY").year()+Math.floor((moment('25/04/14', "DD/MM/YY").month()-1)/6)*0.5;
+var maxDateUnix = moment('01/01/19', "DD/MM/YY").year()+Math.floor((moment('01/01/19', "DD/MM/YY").month()-1)/6)*0.5;
+var secondsInDay = 0.5;
 
 d3.select('#slider3').call(d3.slider()
   .axis(true).min(minDateUnix).max(maxDateUnix).step(secondsInDay)
@@ -155,5 +160,6 @@ d3.select('#slider3').call(d3.slider()
     displaySites(newData);
   })
 );
+
 </script>
 </body>

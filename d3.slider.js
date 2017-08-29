@@ -153,9 +153,9 @@ return function module() {
 
           axis = d3.svg.axis()
               //.ticks(5)
-              .tickValues(["2014.25","2014.5","2014.75","2015","2015.25"])
+              .tickValues(["2014","2014.5","2015","2015.5","2016","2016.5","2017","2017.5","2018","2018.5"])
               //Math.round(sliderLength / 500)
-              .tickFormat(function(d) { return "T"+((d - Math.floor(d))*4+1) + "/" + tickFormat(Math.floor(d)); })
+              .tickFormat(function(d) { return "S"+((d - Math.floor(d))*2+1) + "/" + tickFormat(Math.floor(d)); })
               .orient((orientation === "horizontal") ? "bottom" :  "right");
 
         }
